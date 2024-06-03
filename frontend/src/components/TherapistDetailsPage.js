@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { add_councellor } from "../utils/bookingSlice";
+import { useNavigate } from "react-router-dom";
 
 function TherapistDetailsPage() {
 
   const therapist_details = useSelector((state) => state.booking.selected_councellor)
+  const user = useSelector((state) => state.user.data)
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const { id } = useParams;
 
   async function getCouncellorData() {
@@ -18,33 +20,39 @@ function TherapistDetailsPage() {
     await axios.get(`/api/booking/getTherapistDetails/${id}`, {
       withCredentials: true,
     }).then((data) => {
-        console.log(data)
-        //add fetched data in redux state if data is available
-        if (data) {
-          dispatch(add_councellor(data))
-        } else {
-          return (
-            <>
-              <h1>404 Not Found...</h1>
-            </>
-          )
-        }
-      }).catch((err) => console.log(err))
+      console.log(data)
+      //add fetched data in redux state if data is available
+      if (data) {
+        dispatch(add_councellor(data))
+      } else {
+        return (
+          <>
+            <h1>404 Not Found...</h1>
+          </>
+        )
+      }
+    }).catch((err) => console.log(err))
   }
 
   useEffect(() => {
     getCouncellorData()
   }, [id, dispatch]);
 
-  function handle_click_booking(){
-    
+  function handle_booking_click() {
+    if (user._id) {
+      navigate("/BookTherapistPage")
+    } else {
+      alert("Please Login to book session !")
+    }
   }
   return (<>
-    <div className="flex">
-      <Side_Navbar />
+    <div className={user._id ? "flex" : "flex justify-center"}>
+      {
+        user._id && user.role == "Client" && <Side_Navbar />
+      }
       <div className="flex-col ml-[2vw] ">
         {/* search bar element */}
-        <div className="flex justify-center ml-[18vw] mt-[4vh]">
+        <div className="flex justify-center mt-[4vh]">
           <div class="relative  h-[57px]">
             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
               <svg
@@ -155,9 +163,11 @@ function TherapistDetailsPage() {
                       className="shrink-0 w-8 aspect-square"
                     />
                   </div>
-                  <div className="justify-center px-10 py-4 mt-11 text-xl font-medium text-black bg-cyan-600 rounded max-md:px-5 max-md:mt-10">
-                    <Link onClick={handle_click_booking}>Book a Session</Link>
-                  </div>
+                  <Link onClick={handle_booking_click}>
+                    <div className="justify-center px-10 py-4 mt-11 text-xl font-medium text-black bg-cyan-600 rounded max-md:px-5 max-md:mt-10">
+                      Book a Session
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>

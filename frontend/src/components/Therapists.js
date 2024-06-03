@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useState, useEffect }from "react";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const Therapists = () => {
+
+  const [TherapistList, setTherapistList] = useState([]);
+  const user = useSelector((store) => store.user.data);
+  async function get_Therapist_List() {
+    //get data from API
+    await axios.get(`/api/booking/getTherapistList`, {
+      withCredentials: true,
+    }).then((data) => {
+        console.log(data)
+        //add fetched data in redux state if data is available
+        if (data) {
+          setTherapistList(data)
+        } else {
+          return (
+            <>
+              <h1>404 Not Found...</h1>
+            </>
+          )
+        }
+      }).catch((err) => console.log(err))
+  }
+
+  useEffect(() => {
+    console.log("length", user.length)
+    get_Therapist_List()
+  }, []);
+
   const therapists_info = [
     {
+      _id: 1,
       name: "Dr. Sundhari Prakhashan",
       experience: 10,
       languages: ["Hindi", "English", "Kannada"],
@@ -16,6 +46,7 @@ const Therapists = () => {
       profile_image: "therapist_card_image.jpeg",
     },
     {
+      _id: 2,
       name: "Dr. Sundhari Prakhashan",
       experience: 10,
       languages: ["Hindi", "English", "Kannada"],
@@ -28,6 +59,7 @@ const Therapists = () => {
       profile_image: "therapist_card_image.jpeg",
     },
     {
+      _id: 3,
       name: "Dr. Sundhari Prakhashan",
       experience: 10,
       languages: ["Hindi", "English", "Kannada"],
@@ -40,6 +72,7 @@ const Therapists = () => {
       profile_image: "therapist_card_image.jpeg",
     },
     {
+      _id: 4,
       name: "Dr. Sundhari Prakhashan",
       experience: 10,
       languages: ["Hindi", "English", "Kannada"],
@@ -90,40 +123,40 @@ const Therapists = () => {
             Therapists
        </div>
           <div className="grid grid-cols-1 xlg:grid-cols-2 m-0 p-0  gap-x-[27px] gap-y-[32px]">
-            {therapists_info.map((item, index) => {
+            {therapists_info.map((therapist, index) => {
               return (
                 <div
                   className=" h-[288px] border border-[#1d96b4] rounded-md"
-                  key={item.name + index}
+                  key={therapist.name + index}
                 >
                   <div className="h-[209px]  m-0 p-[24px] pb-[19px] bg-[#0190B1] rounded-t-md">
                     <div className="m-0 p-0 h-full flex gap-[12px]">
                       <div className="m-0 p-0 h-full xlg:w-[0] xlg2:w-[100px] sm:w-[129px] w-[0px] ">
                         <img
-                          src={require(`./images/${item.profile_image}`)}
-                          alt={item.name}
+                          src={require(`./images/${therapist.profile_image}`)}
+                          alt={therapist.name}
                           className="object-contain w-full rounded-md"
                         />
                       </div>
                       <div className="m-0 p-0 ">
                         <p className="therapist-page__name 2xl:text-[28px] xl:text-[24px] lg:text-[22px] sm:text-[18px]">
-                          {item.name}
+                          {therapist.name}
                         </p>
                         <p className="therapist-page__desc lg:text-[14px] xl:text-[14px] mt-[8px] sm:text-[14px]">
-                          I have experience over {item.experience}
+                          I have experience over {therapist.experience} years
                         </p>
                         <p className="therapist-page__desc lg:text-[14px] xl:text-[14px] mt-0 xl:mt-[8px] sm:text-[14px] lg:mt-[5px] sm:mt-[2px] flex flex-row gap-1">
                           Expertise:
-                            {item.expertise.map((expertise) => {
+                            {therapist.expertise.map((expertise) => {
                             return <span>{expertise}</span>
                           })}
                         </p>
                         <p className="therapist-page__desc lg:text-[14px] xl:text-[14px] mt-0 xl:mt-[8px] sm:text-[14px] lg:mt-[5px] sm:mt-[2px]">
                           {" "}
-                          <span>Starts@ {item.charge}</span> for one session
+                          <span>Starts@ {therapist.charge}</span> for one session
                         </p>
                         <p className="therapist-page__desc lg:text-[14px] xl:text-[14px] mt-0 xl:mt-[8px]  sm:text-[14px] lg:mt-[5px] sm:mt-[2px] flex flex-row gap-1">
-                          Languages: {item.languages.map((language) => {
+                          Languages: {therapist.languages.map((language) => {
                             return <span>{language}</span>
                           })}
                         </p>
@@ -135,17 +168,17 @@ const Therapists = () => {
                     <div id="dummy"></div>
                     <div id="dummy"></div>
                     <div className="xl:mt-4 sm:mt-2 sm:ms-4">
-                      <Link to="/therapists/profile/1" target="_top">
+                      <Link to={user._id == undefined ? `/therapist/${therapist._id}` : `/TherapistDetailsPage/${therapist._id}`} target="_top">
                       <button class="bg-transparent  text-[#0190B1] font-semibold py-2 px-4 border border-[#0190B1] rounded">
-                      <Link to="/TherapistDetailsPage">View Profile</Link>
+                      View Profile
                       </button>
                       </Link>
                       
                     </div>
                     <div className="xl:mt-4 sm:mt-2 sm:ms-4">
-                      <Link to="/therapists/booking/1" target="_top">
+                      <Link to={user._id == undefined ? `/booking/${therapist._id}` : `/BookTherapistPage/${therapist._id}`} target="_top">
                       <button class="bg-[#0190B1] text-white font-semibold py-2 px-4 rounded">
-                       <Link to="/BookTherapistPage">Book</Link>
+                       Book
                       </button>
                       </Link>
                       

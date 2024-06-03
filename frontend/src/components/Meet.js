@@ -52,7 +52,7 @@ const Meet = () => {
             want.
           </p>
 
-          <Link to="/therapists" target="_top">
+          <Link to="/therapist" target="_top">
             <button className="bg-cyan-500 text-black text-xl font-medium rounded-md w-[35%] px-2 py-1">
               Know more
             </button>

@@ -231,7 +231,7 @@ const FAQs = () => {
             }
             description={
               <>
-              We leave that choice to you. Check your preferences and choose the therapists accordingly. You can browse our professionals by <Link to="/therapists" style={{color:"blue"}}>clicking here.</Link>
+              We leave that choice to you. Check your preferences and choose the therapists accordingly. You can browse our professionals by <Link to="/therapist" style={{color:"blue"}}>clicking here.</Link>
               </>
             }
             isVisible={sectionConfig.showCareers6}

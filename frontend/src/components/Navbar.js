@@ -20,7 +20,7 @@ function Navbar() {
   const navLinks = [
     { name: "About Us", to: "/about" },
     { name: "Services", to: "/services" },
-    { name: "Our Therapists", to: "/therapists" },
+    { name: "Our Therapists", to: "/therapist" },
     { name: "Resources", to: "/resources" },
     { name: "FAQ", to: "/FAQs" },
   ];
@@ -73,7 +73,7 @@ function Navbar() {
               <h1 className="text-[22px] font-semibold">{link.name}</h1>
             </Link>
           ))}
-          {user.User == null && (
+          {user.data._id == undefined && (
             <Link to={"/login"}>
               <button
                 className="justify-center self-stretch px-4 py-2 text-[18px] text-black font-bold bg-yellow rounded-lg transition ease-in-out duration-500 hover:scale-105"
@@ -83,7 +83,7 @@ function Navbar() {
               </button>
             </Link>
           )}
-          {user.User != null && (
+          {user.data._id != undefined && (
             <button
               onClick={async () => {
                 await logout();
