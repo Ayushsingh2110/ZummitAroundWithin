@@ -1,5 +1,5 @@
 const express = require("express");
-const { adminDashboard } = require("../controllers/Admin/adminDashboardController");
+const { adminDashboard,createadminDashboard } = require("../controllers/Admin/adminDashboardController");
 const  { appointmentsList, createAppointment } = require("../controllers/Admin/appointmentsList");
 const {clientsList , createClient} = require("../controllers/Admin/clientList");
 const { profiles , createProfiles } = require("../controllers/Admin/profile");
@@ -15,6 +15,7 @@ const router = express.Router();
 
 //Create API's
 router.route("/createAppointmentLists").post(createAppointment );
+router.route("/createAdmindashboardDetails").post(createadminDashboard );
 router.route("/createClientLists").post(createClient);
 router.route("/createCreategroupsDetails").post(CreategroupsDetails);
 router.route("/createCreateProfiles").post(createProfiles);
