@@ -88,7 +88,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
   try {
     const admin = await AdminLoginRegister.findOne({ input }).select(
-      "-password"
+      "+password"
     );
 
     if (!admin) {
@@ -100,7 +100,12 @@ const loginAdmin = asyncHandler(async (req, res) => {
     if (admin && isMatch) {
       res.status(200).json({
         success: true,
-        admin,
+        _id: admin._id,
+        name: admin.name,
+        input: admin.input,
+        role: admin.role,
+        createdAt: admin.createdAt,
+        updatedAt: admin.updatedAt,
         token: generateToken(admin._id),
       });
     } else {

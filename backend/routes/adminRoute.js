@@ -9,7 +9,7 @@ const {therapistsDetails,createtherapistsDetails} = require("../controllers/Admi
 const {transactions,createtransactions} = require("../controllers/Admin/transactions");
 const {registerAdmin,loginAdmin} = require("../controllers/Admin/adminController/register_Login");
 const { resources , createResource, updateResource } = require("../controllers/Admin/resourcesList");
-
+const { protect , admin } = require("../middleware/authorizationMiddleware");
 
 const router = express.Router();
 
@@ -42,7 +42,7 @@ router.route("/profile").get(profiles);
 router.route("/groupsdetails").get(groupsDetails);
 router.route("/addedreview").get(reviewsList);
 router.route("/reviews").post(reviewsList);
-router.route("/therapistsdetails").post(therapistsDetails);
+router.route("/therapistsdetails").post(protect , admin ,therapistsDetails);
 router.route("/transactions").post(transactions);
 router.route("/resources").post(resources);
 
