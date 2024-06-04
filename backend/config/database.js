@@ -5,7 +5,6 @@ const dbConnect=()=>{
     mongoose.connect(process.env.DATABASE_URL,{
         dbName : "Zummit"
     })
-
     .then(()=>console.log("db connect sucessfully"))
     .catch((error)=>{
         console.log("issue in DB Connection");

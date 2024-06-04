@@ -1,9 +1,15 @@
-const errorHandler=(err,req,res,next)=>{
-    const statusCode=res.statusCode?res.status:500;
-    res.status(statusCode).json({
-        message:err.message,
-        stack:process.env.NODE_ENV==="development"?err.stack:null
-    })
-}
+const errorHandler = (err, req, res, next) => {
+  let statusCode = res.statusCode ? res.statusCode : 500;
 
-module.exports=errorHandler
+  // Validate status code
+  if (!Number.isInteger(statusCode) || statusCode < 100 || statusCode > 599) {
+    statusCode = 500;
+  }
+
+  res.status(statusCode).json({
+    message: err.message,
+    stack: process.env.NODE_ENV === "development" ? err.stack : null,
+  });
+};
+
+module.exports = errorHandler;

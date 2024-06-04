@@ -1,5 +1,5 @@
 const express = require("express");
-const { adminDashboard } = require("../controllers/Admin/adminDashboardController");
+const { adminDashboard,createadminDashboard } = require("../controllers/Admin/adminDashboardController");
 const  { appointmentsList, createAppointment } = require("../controllers/Admin/appointmentsList");
 const {clientsList , createClient} = require("../controllers/Admin/clientList");
 const { profiles , createProfiles } = require("../controllers/Admin/profile");
@@ -9,12 +9,13 @@ const {therapistsDetails,createtherapistsDetails} = require("../controllers/Admi
 const {transactions,createtransactions} = require("../controllers/Admin/transactions");
 const {registerAdmin,loginAdmin} = require("../controllers/Admin/adminController/register_Login");
 const { resources , createResource, updateResource } = require("../controllers/Admin/resourcesList");
-
+const { protect , admin } = require("../middleware/authorizationMiddleware");
 
 const router = express.Router();
 
 //Create API's
 router.route("/createAppointmentLists").post(createAppointment );
+router.route("/createAdmindashboardDetails").post(createadminDashboard );
 router.route("/createClientLists").post(createClient);
 router.route("/createCreategroupsDetails").post(CreategroupsDetails);
 router.route("/createCreateProfiles").post(createProfiles);
@@ -41,7 +42,7 @@ router.route("/profile").get(profiles);
 router.route("/groupsdetails").get(groupsDetails);
 router.route("/addedreview").get(reviewsList);
 router.route("/reviews").post(reviewsList);
-router.route("/therapistsdetails").post(therapistsDetails);
+router.route("/therapistsdetails").post(protect , admin ,therapistsDetails);
 router.route("/transactions").post(transactions);
 router.route("/resources").post(resources);
 

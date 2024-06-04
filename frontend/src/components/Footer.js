@@ -54,7 +54,7 @@ const Footer = () => {
                     <a href="mailto:around@gmail.com">
                       <div className="mt-3.5">Around@gmail.com</div>
                     </a>
-                    <div className="mt-2.5">+225548411213</div>
+                    <div className="mt-2.5">+225548411213</div>   
                   </div>
                 </div>
               </div>
