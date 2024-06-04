@@ -164,7 +164,7 @@ const routes = [
     path: "/",
   },
   { path: "/userdashboard", element: <UserDashboard /> },
-  { path: "/book-slot/:id", element: <BookingPage /> },
+  { path: "/bookingPage", element: <BookingPage /> },
   { path: "/TherapistDetailsPage/:id", element: <TherapistDetailsPage /> },
   { path: "/BookTherapistPage/:id", element: <BookTherapistPage /> },
   { path: "/ShowBookingDetailsPage", element: <ShowBookingDetailsPage /> },

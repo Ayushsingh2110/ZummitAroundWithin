@@ -1,169 +1,206 @@
-import * as React from "react";
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
 import Side_Navbar from "./Side_Navbar";
+import { useSelector } from "react-redux";
+import { Link, useParams } from 'react-router-dom';
+
 function BookTherapistPage() {
-    return (<>
-    <div className="flex">
-        <Side_Navbar />
-        <div className="flex-col ">
+
+  //get user data from redux state
+  const user = useSelector((state) => state.user.data);
+
+  //get therapist id from params
+  const { id } = useParams;
+
+  // const [TherapistData, setTherapistData] = useState({});
+  // const therapistData = useSelector((state) => state.booking.selected_councellor)
+
+  // setTherapistData(therapistData)
+  //verify user
+
+  // //get therapist data 
+  // function GetTherapistData(){
+
+  // }
+
+  // //useEffect to run at the time of loading and everytime id changes in params
+  // useEffect(() => {
+  //   GetTherapistData()
+  // }, [id])
+
+  const [Selected_session_Mode, setSelect_session_mode] = useState("video");
+
+  useEffect(() => {
+    console.log(Selected_session_Mode);
+  }, [Selected_session_Mode])
+
+  return (<>
+    <div className="flex gap-[50px] bg-[#F2FCFF]">
+      <Side_Navbar />
+      <div className="flex-col flex-1">
         {/* search bar element */}
-        <div className="flex justify-center ml-[18vw] mt-[4vh]">
-              <div class="relative  h-[57px]">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg
-                    class="w-4 h-4 text-gray-500 "
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
+        <div className="flex justify-center mt-[4vh]">
+          <div className="relative  h-[57px]">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg
+                class="w-4 h-4 text-gray-500 "
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              type="search"
+              id="default-search"
+              class="block w-[743px] p-4 ps-10 text-sm rounded-lg bg-white border border-[#B4F0FF] outline-none"
+              placeholder="Search "
+              required
+            />
+          </div>
+        </div>
+        {/* Therapist name */}
+        <div className=" flex text-2xl mb-8font-medium leading-9 max-w-[416px] text-slate-950 mt-[2vh] mb-[2vh] ">
+          Therapists/Dr. Sundhari Prakhashan
+        </div>
+        <div className="m-[38px]" >
+          {/* book page */}
+          <div className="flex justify-center items-center px-16 py-5 bg-white rounded max-w-[935px] max-md:px-5 shadow-lg" >
+            <div className="flex flex-col px-12 w-full max-w-[707px] max-md:px-5 max-md:max-w-full">
+              <div className="self-center text-2xl font-medium leading-9 text-slate-950">
+                Session Booking
+              </div>
+              <div className="self-center mt-6 text-xl font-medium text-slate-950 max-md:max-w-full">
+                Select your mode
+              </div>
+              <div className="flex gap-5 justify-between self-start mt-8 ml-16 text-sm text-center whitespace-nowrap text-slate-950 max-md:ml-2.5">
+                <button
+                  onClick={() => setSelect_session_mode("video")}
+                  className={`flex flex-col px-8 py-2.5 ${Selected_session_Mode === "video" ? `bg-cyan-600` : `border border-solid border-neutral-900`}  rounded max-md:px-5`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" viewBox="0 0 33 32" fill="none"
+                    className={Selected_session_Mode === "video" ? "text-white" : "text-[#121014]"}
                   >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                    />
+                    <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M21.3003 15.4667L29.8337 9.33335V22.6667L21.3003 16.6667V15.3334V15.4667ZM5.83366 6.66669H17.8337C18.5409 6.66669 19.2192 6.94764 19.7193 7.44774C20.2194 7.94783 20.5003 8.62611 20.5003 9.33335V22.6667C20.5003 23.3739 20.2194 24.0522 19.7193 24.5523C19.2192 25.0524 18.5409 25.3334 17.8337 25.3334H5.83366C5.12641 25.3334 4.44814 25.0524 3.94804 24.5523C3.44794 24.0522 3.16699 23.3739 3.16699 22.6667V9.33335C3.16699 7.86669 4.36699 6.66669 5.83366 6.66669Z" />
                   </svg>
+                  <div className="mt-2.5">Video</div>
+                </button>
+                <button
+                  onClick={() => setSelect_session_mode("call")}
+                  className={`flex flex-col px-8 py-2.5 ${Selected_session_Mode === "call" ? `bg-cyan-600` : `border border-solid border-neutral-900`}  rounded max-md:px-5`}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" viewBox="0 0 33 32" fill="none"
+                    className={Selected_session_Mode === "call" ? "text-white" : "text-[#121014]"}
+                  >
+                    <path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M29.8329 22.56V26.56C29.8344 26.9314 29.7584 27.2989 29.6096 27.6392C29.4608 27.9794 29.2427 28.2848 28.969 28.5358C28.6954 28.7869 28.3724 28.978 28.0206 29.097C27.6688 29.2159 27.2961 29.2601 26.9263 29.2267C22.8234 28.7809 18.8823 27.3789 15.4196 25.1334C12.198 23.0862 9.4667 20.3549 7.41959 17.1334C5.16622 13.655 3.76391 9.69469 3.32625 5.57336C3.29293 5.20465 3.33675 4.83304 3.45492 4.48219C3.57309 4.13135 3.76301 3.80895 4.01261 3.53552C4.2622 3.2621 4.56599 3.04364 4.90464 2.89406C5.24329 2.74447 5.60937 2.66704 5.97959 2.66669H9.97959C10.6267 2.66033 11.254 2.88947 11.7446 3.3114C12.2352 3.73334 12.5557 4.31929 12.6463 4.96003C12.8151 6.24012 13.1282 7.497 13.5796 8.70669C13.759 9.18393 13.7978 9.70258 13.6915 10.2012C13.5851 10.6998 13.3381 11.1575 12.9796 11.52L11.2863 13.2134C13.1843 16.5514 15.9482 19.3153 19.2863 21.2134L20.9796 19.52C21.3421 19.1615 21.7998 18.9145 22.2984 18.8082C22.797 18.7018 23.3157 18.7406 23.7929 18.92C25.0026 19.3714 26.2595 19.6845 27.5396 19.8534C28.1873 19.9447 28.7788 20.271 29.2016 20.77C29.6245 21.2691 29.8491 21.9061 29.8329 22.56Z" />
+                  </svg>
+                  <div className="mt-2.5">Call</div>
+                </button>
+              </div>
+              <div className="self-center mt-8 text-xl font-medium text-slate-950 max-md:max-w-full">
+                Session Duration
+              </div>
+              <div className="justify-center self-start px-8 py-3 mt-6 ml-16 text-sm font-medium text-yellow-300 bg-cyan-600 rounded max-md:px-5 max-md:ml-2.5">
+                1 Hour
+              </div>
+              <div className="flex gap-5 justify-between self-center mt-6 max-w-full text-sm font-medium w-[490px] max-md:flex-wrap">
+                <div className="text-black">1 Session</div>
+                <div className="text-cyan-600">
+                  RS: <span className="text-cyan-600">499</span>/Session
                 </div>
-                <input
-                  type="search"
-                  id="default-search"
-                  class="block w-[743px] p-4 ps-10 text-sm rounded-lg bg-[#EFF7FF] border border-[#B4F0FF] outline-none"
-                  placeholder="Search "
-                  required
+              </div>
+              <div className="mt-8 text-xl font-medium text-slate-950 max-md:max-w-full">
+                Check Available slots
+              </div>
+              <div className="flex gap-5 justify-between items-center mt-6 w-full max-md:flex-wrap max-md:max-w-full">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/dbe922afa8f28ad6e0e909b4e5ee12c30a33d9c9e3843442c012faf84e2cdf90?apiKey=8587097ed3a94b279b125430c3e068a6&"
+                  className="shrink-0 self-stretch my-auto w-8 aspect-square"
+                />
+                <div className="self-stretch max-md:max-w-full">
+                  <div className="flex gap-5 max-md:flex-col max-md:gap-0">
+                    <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
+                      <div className="flex flex-col grow text-black max-md:mt-6">
+                        <div className="self-center text-xl font-medium">MON</div>
+                        <div className="flex flex-col px-7 py-2.5 mt-3 rounded border border-solid border-neutral-900 max-md:px-5">
+                          <div className="text-xl font-medium">Feb 20</div>
+                          <div className="mt-2.5 text-xs">8 Available slots</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
+                      <div className="flex flex-col grow max-md:mt-6">
+                        <div className="self-center text-xl font-medium text-black">
+                          TUE
+                        </div>
+                        <div className="flex flex-col px-7 py-2.5 mt-3 bg-cyan-600 rounded max-md:px-5">
+                          <div className="text-xl font-medium text-yellow-300">
+                            Feb 21
+                          </div>
+                          <div className="mt-2.5 text-xs text-black">
+                            3 Available slots
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
+                      <div className="flex flex-col grow text-neutral-400 max-md:mt-6">
+                        <div className="self-center text-xl font-medium">WED</div>
+                        <div className="flex flex-col px-7 py-2.5 mt-3 rounded border border-solid border-neutral-400 max-md:px-5">
+                          <div className="text-xl font-medium">Feb 22</div>
+                          <div className="mt-2.5 text-xs">No Available slots</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/f56796728be6404f086fe8f6474bf54542cf5b1095ffb1e699b497945b9a19bd?apiKey=8587097ed3a94b279b125430c3e068a6&"
+                  className="shrink-0 self-stretch my-auto w-8 aspect-square"
                 />
               </div>
-            </div>
-        <div className="ml-[4vw]" > 
-         {/* Therapist name */}
-         <div className=" flex text-2xl mb-8font-medium leading-9 max-w-[416px] text-slate-950 mt-[2vh] mb-[2vh] ">
-            Therapists/Dr. Sundhari Prakhashan
-       </div>
-       {/* book page */}
-       <div className="flex justify-center items-center px-16 py-5 bg-white rounded max-w-[935px] max-md:px-5 shadow-lg" >
-      <div className="flex flex-col px-12 w-full max-w-[707px] max-md:px-5 max-md:max-w-full">
-        <div className="self-center text-2xl font-medium leading-9 text-slate-950">
-          Session Booking
-        </div>
-        <div className="self-center mt-6 text-xl font-medium text-slate-950 max-md:max-w-full">
-          Select your mode
-        </div>
-        <div className="flex gap-5 justify-between self-start mt-8 ml-16 text-sm text-center whitespace-nowrap text-slate-950 max-md:ml-2.5">
-          <div className="flex flex-col px-8 py-2.5 bg-cyan-600 rounded max-md:px-5">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/8b7facd8ac232c745865e6392c4c41530fc8cf2282b02d68f86f55f2343762a4?apiKey=8587097ed3a94b279b125430c3e068a6&"
-              className="self-center aspect-[1.19] w-[38px]"
-            />
-            <button className="mt-2.5">Video</button>
-          </div>
-          <div className="flex flex-col px-8 py-2.5 rounded border border-solid border-neutral-900 max-md:px-5">
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/18fee7db9bfdcc4b866154e0367f51cf184e1f5bfba67d83da8dcab032864ff8?apiKey=8587097ed3a94b279b125430c3e068a6&"
-              className="self-center aspect-[1.19] w-[38px]"
-            />
-            <button className="mt-2.5">Call</button>
-          </div>
-        </div>
-        <div className="self-center mt-8 text-xl font-medium text-slate-950 max-md:max-w-full">
-          Session Duration
-        </div>
-        <div className="justify-center self-start px-8 py-3 mt-6 ml-16 text-sm font-medium text-yellow-300 bg-cyan-600 rounded max-md:px-5 max-md:ml-2.5">
-          1 Hour
-        </div>
-        <div className="flex gap-5 justify-between self-center mt-6 max-w-full text-sm font-medium w-[490px] max-md:flex-wrap">
-          <div className="text-black">1 Session</div>
-          <div className="text-cyan-600">
-            RS: <span className="text-cyan-600">499</span>/Session
-          </div>
-        </div>
-        <div className="mt-8 text-xl font-medium text-slate-950 max-md:max-w-full">
-          Check Available slots
-        </div>
-        <div className="flex gap-5 justify-between items-center mt-6 w-full max-md:flex-wrap max-md:max-w-full">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/dbe922afa8f28ad6e0e909b4e5ee12c30a33d9c9e3843442c012faf84e2cdf90?apiKey=8587097ed3a94b279b125430c3e068a6&"
-            className="shrink-0 self-stretch my-auto w-8 aspect-square"
-          />
-          <div className="self-stretch max-md:max-w-full">
-            <div className="flex gap-5 max-md:flex-col max-md:gap-0">
-              <div className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
-                <div className="flex flex-col grow text-black max-md:mt-6">
-                  <div className="self-center text-xl font-medium">MON</div>
-                  <div className="flex flex-col px-7 py-2.5 mt-3 rounded border border-solid border-neutral-900 max-md:px-5">
-                    <div className="text-xl font-medium">Feb 20</div>
-                    <div className="mt-2.5 text-xs">8 Available slots</div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                <div className="flex flex-col grow max-md:mt-6">
-                  <div className="self-center text-xl font-medium text-black">
-                    TUE
-                  </div>
-                  <div className="flex flex-col px-7 py-2.5 mt-3 bg-cyan-600 rounded max-md:px-5">
-                    <div className="text-xl font-medium text-yellow-300">
-                      Feb 21
+              <div className="flex gap-5 justify-between self-center mt-8 max-w-full text-base text-black w-[547px] max-md:flex-wrap">
+                <div className="flex gap-5 justify-between whitespace-nowrap">
+                  <div className="flex flex-col justify-center text-cyan-600">
+                    <div className="justify-center px-1 py-2.5 border-b border-cyan-600 border-solid">
+                      Morning
                     </div>
-                    <div className="mt-2.5 text-xs text-black">
-                      3 Available slots
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <div className="justify-center px-1 py-2.5 border-b border-black border-solid">
+                      Noon
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <div className="justify-center px-1 py-2.5 border-b border-black border-solid">
+                      Evening
                     </div>
                   </div>
                 </div>
+                <div className="my-auto">09: 00 AM - 12:00 PM</div>
               </div>
-              <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                <div className="flex flex-col grow text-neutral-400 max-md:mt-6">
-                  <div className="self-center text-xl font-medium">WED</div>
-                  <div className="flex flex-col px-7 py-2.5 mt-3 rounded border border-solid border-neutral-400 max-md:px-5">
-                    <div className="text-xl font-medium">Feb 22</div>
-                    <div className="mt-2.5 text-xs">No Available slots</div>
-                  </div>
-                </div>
-              </div>
+              <button className="justify-center self-start px-4 py-3 mt-6 ml-8 text-sm bg-white rounded border border-solid border-neutral-900 text-neutral-900 max-md:ml-2.5">
+                10: 00 AM
+              </button>
+              <button className="justify-center self-end px-10 py-3 mt-8 text-xl font-medium text-yellow-300 whitespace-nowrap bg-cyan-600 rounded max-md:px-5">
+                <Link to="/ShowBookingDetailsPage">Book</Link>
+              </button>
             </div>
           </div>
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/f56796728be6404f086fe8f6474bf54542cf5b1095ffb1e699b497945b9a19bd?apiKey=8587097ed3a94b279b125430c3e068a6&"
-            className="shrink-0 self-stretch my-auto w-8 aspect-square"
-          />
         </div>
-        <div className="flex gap-5 justify-between self-center mt-8 max-w-full text-base text-black w-[547px] max-md:flex-wrap">
-          <div className="flex gap-5 justify-between whitespace-nowrap">
-            <div className="flex flex-col justify-center text-cyan-600">
-              <div className="justify-center px-1 py-2.5 border-b border-cyan-600 border-solid">
-                Morning
-              </div>
-            </div>
-            <div className="flex flex-col justify-center">
-              <div className="justify-center px-1 py-2.5 border-b border-black border-solid">
-                Noon
-              </div>
-            </div>
-            <div className="flex flex-col justify-center">
-              <div className="justify-center px-1 py-2.5 border-b border-black border-solid">
-                Evening
-              </div>
-            </div>
-          </div>
-          <div className="my-auto">09: 00 AM - 12:00 PM</div>
-        </div>
-        <button className="justify-center self-start px-4 py-3 mt-6 ml-8 text-sm bg-white rounded border border-solid border-neutral-900 text-neutral-900 max-md:ml-2.5">
-          10: 00 AM
-        </button>
-        <button className="justify-center self-end px-10 py-3 mt-8 text-xl font-medium text-yellow-300 whitespace-nowrap bg-cyan-600 rounded max-md:px-5">
-          <Link to="/ShowBookingDetailsPage">Book</Link>
-        </button>
       </div>
     </div>
-    </div>  
-       </div>
-    </div>
-       
-    </>)
+
+  </>)
 }
 
 export default BookTherapistPage
