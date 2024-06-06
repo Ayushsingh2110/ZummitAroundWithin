@@ -22,6 +22,9 @@ const therapistSchema = mongoose.Schema({
   registeredAt: {
     type: Date,
     default: Date.now,
+  },
+  admin :{
+    type : String,
   }
 }, {
   timestamps: true,

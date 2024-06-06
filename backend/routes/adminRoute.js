@@ -10,6 +10,7 @@ const {transactions,createtransactions} = require("../controllers/Admin/transact
 const {registerAdmin,loginAdmin} = require("../controllers/Admin/adminController/register_Login");
 const { resources , createResource, updateResource } = require("../controllers/Admin/resourcesList");
 const { protect , admin } = require("../middleware/authorizationMiddleware");
+const { createTherapist } = require("../controllers/Admin/therapistCredentials/createCredentials");
 
 const router = express.Router();
 
@@ -25,6 +26,7 @@ router.route("/adminRegister").post(registerAdmin);
 router.route("/adminLogin").post(loginAdmin);
 router.route("/createResource").post(createResource);
 router.route("/createReviews").post(createReviewsList);
+router.post("/createCredentials", protect, admin, createTherapist);
 
 // update API's
 router.route("/updateResource").post(updateResource);

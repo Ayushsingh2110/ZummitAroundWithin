@@ -1,38 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const Therapist = require("../../models/Therapist/therapistModel");
-const Admin = require("../../models/Admin/adminModel");
+const Therapist = require("../../../models/Therapist/therapistModel");
+const Admin = require("../../../models/Admin/AdminRegisterLogin/adminModel");
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };
-
-//admin middleware hey add karo 
-const adminAuth = asyncHandler(async (req, res, next) => {
-  const token = req.headers.authorization;
-
-  if (!token) {
-    return res.status(401).json({ success: false, msg: 'No token provided, authorization denied' });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.ADMIN_JWT_SECRET);
-    const admin = await Admin.findById(decoded.id);
-
-    if (!admin) {
-      return res.status(401).json({ success: false, msg: 'Not authorized as admin' });
-    }
-
-    req.admin = admin;
-    next();
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
 
 
 const createTherapist = asyncHandler(async (req, res) => {
@@ -41,20 +17,37 @@ const createTherapist = asyncHandler(async (req, res) => {
   const emailRegex = new RegExp(`^[^@]+@${allowedDomain}$`);
 
   if (!emailRegex.test(input)) {
-    return res.status(400).json({ success: false, msg: 'Invalid email domain' });
+    return res
+      .status(400)
+      .json({ success: false, msg: "Invalid email domain" });
   }
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const registrationsToday = await Therapist.countDocuments({ registeredAt: { $gte: today }, admin: req.admin.id });
 
-  if (registrationsToday >= 5) {
-    return res.status(400).json({ success: false, msg: 'Registration limit reached for today' });
+
+  const adminId = req.user.id;
+
+  const registrationsToday = await Therapist.aggregate([
+    { $match: { registeredAt: { $gte: today }, admin: adminId } }, 
+    { $group: { _id: null, count: { $sum: 1 } } },
+  ]);
+
+  const dailyCount =
+    registrationsToday.length > 0 ? registrationsToday[0].count : 0;
+
+
+  if (dailyCount >= 5) {
+    return res
+      .status(400)
+      .json({ success: false, msg: "Registration limit reached for today" });
   }
 
   const therapistExists = await Therapist.findOne({ input });
   if (therapistExists) {
-    res.status(400);
+    res.status(400).json({
+      message: "Therapist already registered",
+    });
     throw new Error("Therapist already registered");
   }
 
@@ -65,18 +58,17 @@ const createTherapist = asyncHandler(async (req, res) => {
     input,
     role,
     password: hashedPassword,
-    admin: req.admin.id,
+    admin: adminId,
   });
 
   if (therapist) {
     const { _id, input, role } = therapist;
-    console.log("ID is ", _id);
     const token = generateToken(_id);
     res.cookie("token", token, {
       path: "/",
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 86400),
-      // secure: true,  // for deployment
+      // secure: true, // for deployment
       // sameSite: none
     });
 
@@ -98,14 +90,18 @@ const loginTherapist = asyncHandler(async (req, res) => {
   const { input, password } = req.body;
 
   if (!input || !password) {
-    res.status(400);
+    res.status(400).json({
+      message: "Please add email/phone & password",
+    });
     throw new Error("Please add email/phone & password");
   }
 
   const therapist = await Therapist.findOne({ input });
 
   if (!therapist) {
-    res.status(400);
+    res.status(400).json({
+      message : "Therapist does not exist",
+    })
     throw new Error("Therapist does not exist");
   }
 
@@ -122,17 +118,19 @@ const loginTherapist = asyncHandler(async (req, res) => {
       // sameSite: none
     });
 
-    res.status(201).json({ newTherapist, "Authorization": token });
+    res.status(201).json({ newTherapist, Authorization: token });
   } else {
-    res.status(400);
+    res.status(400).json({
+      message: "Invalid email or password",
+    });
     throw new Error("Invalid email or password");
   }
 });
 
 const logoutTherapist = asyncHandler(async (req, res) => {
-  res.clearCookie('token');
+  res.clearCookie("token");
   res.status(200).json({
-    message: "Successfully logged out"
+    message: "Successfully logged out",
   });
 });
 
@@ -140,20 +138,23 @@ const getTherapist = asyncHandler(async (req, res) => {
   const token = req.cookies.token;
 
   if (!token) {
-    return res.status(401).json({ success: false, msg: 'No token provided, authorization denied' });
+    return res
+      .status(401)
+      .json({ success: false, msg: "No token provided, authorization denied" });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const therapist = await Therapist.findById(decoded.id).select('-password');
+    const therapist = await Therapist.find({}).select("-password");
     if (!therapist) {
-      return res.status(404).json({ success: false, msg: 'Therapist not found' });
+      return res
+        .status(404)
+        .json({ success: false, msg: "Therapists not found" });
     }
 
     res.status(200).json({
       success: true,
       data: therapist,
-      msg: "Therapist found"
+      msg: "Therapists found"
     });
   } catch (error) {
     console.log(error);
@@ -166,5 +167,4 @@ module.exports = {
   loginTherapist,
   logoutTherapist,
   getTherapist,
-  adminAuth
 };

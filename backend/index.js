@@ -8,6 +8,7 @@ const app = express();
 const userRoute = require("./routes/userRoute");
 const adminRoute = require("./routes/adminRoute");
 const bookingRoute = require("./routes/bookingRoute");
+const therapistRoute=require("./routes/therapistRoute");
 const Appointments = require("./models/Appointment/AppointmentModel");
 const bodyParser = require('body-parser');
 
@@ -40,6 +41,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/booking", bookingRoute);
+app.use("/api/therapist",therapistRoute);
 app.get("/booking-details", async (req, res) => {
   const allBookings = await Appointments.find({});
   return res.send(allBookings);
