@@ -41,6 +41,7 @@ const AppointmentSchema = mongoose.Schema({
   Status: {
     type: String,
     required: true,
+    default: "pending",
   },
 });
 
