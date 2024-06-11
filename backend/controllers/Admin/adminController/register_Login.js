@@ -1,7 +1,23 @@
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const File=require("../models/File")
+const cloudinary = require("cloudinary").v2;
 const AdminLoginRegister = require("../../../models/Admin/AdminRegisterLogin/adminModel");
+
+// /file supported check karne ka logic
+function isFileTypeSupported(type, supportedTypes) {
+  return supportedTypes.includes(type);
+}
+
+//cloudinary mey upload ka logic
+async function uploadFileToCloudinary(file, folder) {
+  const options = { folder };
+  options.resource_type = "auto";
+  console.log("temp file path", file.tempFilePath);
+  return await cloudinary.uploader.upload(file.tempFilePath, options);
+}
+
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -13,6 +29,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
   const { name, input, password, role } = req.body;
   let isValid = false;
   let msg = "";
+  let imageUrl='';
 
   if (!name || !input || !password || !role) {
     return res.status(400).json({ message: "Please provide all fields" });
@@ -26,6 +43,28 @@ const registerAdmin = asyncHandler(async (req, res) => {
         msg: "Password must be at least 6 characters long.",
       });
   }
+
+  const file=req.files.imageFile;
+  console.log(file);
+
+  //validation
+  // Validate file type
+  const supportedTypes = ["jpg", "jpeg", "png"];
+  const fileType = file.name.split(".")[1].toLowerCase();
+  console.log("file Type",fileType);
+
+  if (!isFileTypeSupported(fileType, supportedTypes)) {
+    return res.status(400).json({
+      success: false,
+      message: "File format not supported",
+    });
+  }
+
+  //file format supported hai
+  console.log("uploading to Zummit");
+  const response=await uploadFileToCloudinary(file,"OfficeBanao");
+  console.log(response);
+
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(input)) {
@@ -46,12 +85,14 @@ const registerAdmin = asyncHandler(async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    
 
     const admin = new AdminLoginRegister({
       name,
       input,
       role,
       password: hashedPassword,
+      imageUrl:response.secure_url
     });
 
     await admin.save();
@@ -67,6 +108,7 @@ const registerAdmin = asyncHandler(async (req, res) => {
        res.status(201).json({
          success: true,
          admin,
+         imageUrl:response.secure_url,
          message: "Admin registered successfully.",
          token,
        });
@@ -104,6 +146,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
         name: admin.name,
         input: admin.input,
         role: admin.role,
+        imageUrl:response.secure_url,
         createdAt: admin.createdAt,
         updatedAt: admin.updatedAt,
         token: generateToken(admin._id),
