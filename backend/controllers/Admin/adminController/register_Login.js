@@ -1,10 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-<<<<<<< HEAD
-//const File=require("../models/File") //seems not in use, commented to avoid error
-=======
->>>>>>> 0ee02963e3c91f289ffd38237bbeaa843e7cb876
 const cloudinary = require("cloudinary").v2;
 const AdminLoginRegister = require("../../../models/Admin/AdminRegisterLogin/adminModel");
 
