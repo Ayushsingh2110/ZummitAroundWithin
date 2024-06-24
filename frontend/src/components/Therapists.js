@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import useFetch from "../utils/fetchData";
+import { checkToken } from "../utils/checkToken";
+import LoginReq_pop from "./PopUps/LoginReq_pop.js";
 
 const Therapists = () => {
   const [allTherapists, setAllTherapists] = useState([]);
   const [searchInput, setSearchInput] = useState(undefined);
+  const [ShowPopUp, setShowPopUp] = useState(false);
+
+  const navigate = useNavigate();
 
   const url = searchInput
     ? `https://zummit-chandan.onrender.com/api/users/booking/getTherapistDetails?name=${searchInput}`
@@ -45,8 +50,18 @@ const Therapists = () => {
   const handleSearchInput = (event) => {
     if (event.key == "Enter") {
       setSearchInput(event.target.value);
+      console.log(searchInput)
     }
   };
+
+  function handleBook() {
+    if(!checkToken("token")){
+      console.log("book clicked")
+      setShowPopUp(true)
+    }else{
+      navigate("/BookTherapistPage")
+    }
+  }
 
   const therapists_info = [
     {
@@ -120,6 +135,9 @@ const Therapists = () => {
   ];
   return (
     <React.Fragment>
+      {
+        ShowPopUp && <LoginReq_pop setShowPopUp={setShowPopUp} />
+      }
       <div className="m-0 p-0">
         <div className="px-[194px] m-0 pb-[68px]">
           <div className="h-[120px] m-0 pt-[33px]">
@@ -219,18 +237,11 @@ const Therapists = () => {
                       </Link>
                     </div>
                     <div className="xl:mt-4 sm:mt-2 sm:ms-4">
-                      <Link
-                        to={
-                          user._id == undefined
-                            ? `/booking/${therapists_info[0]._id}`
-                            : `/BookTherapistPage/${therapists_info[0]._id}`
-                        }
-                        target="_top"
+                      <button class="bg-[#0190B1] text-white font-semibold py-2 px-4 rounded"
+                        onClick={handleBook}
                       >
-                        <button class="bg-[#0190B1] text-white font-semibold py-2 px-4 rounded">
-                          Book
-                        </button>
-                      </Link>
+                        Book
+                      </button>
                     </div>
                   </div>
                 </div>

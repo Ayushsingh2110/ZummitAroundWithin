@@ -6,9 +6,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { addCouncellor } from "../utils/bookingSlice";
 import { useNavigate } from "react-router-dom";
+import { checkToken } from "../utils/checkToken";
+import LoginReq_pop from "./PopUps/LoginReq_pop.js";
 
 function TherapistDetailsPage() {
 
+  const [ShowPopUp, setShowPopUp] = useState(false);
   const therapist_details = useSelector((state) => state.booking.selectedCouncellor)
   const user = useSelector((state) => state.user.data)
   const dispatch = useDispatch();
@@ -41,14 +44,16 @@ function TherapistDetailsPage() {
   function handle_booking_click(e) {
     e.preventDefault();
 
-    if (user._id) {
-      console.log(user);
-      navigate("/BookTherapistPage/1") //therapist _id will be used instead of 1
+    if (!checkToken()) {
+      setShowPopUp(true)
     } else {
-      alert("Please Login to book session !")
+      navigate("/BookTherapistPage")
     }
   }
   return (<>
+    {
+      ShowPopUp && <LoginReq_pop setShowPopUp={setShowPopUp} />
+    }
     <div className={user._id ? "flex" : "flex justify-center"}>
       {
         user._id && user.role == "client" && <Side_Navbar />
