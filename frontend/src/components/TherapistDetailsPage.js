@@ -36,7 +36,7 @@ function TherapistDetailsPage() {
         }
 
         // Fetch therapist details
-        await axios.get(`http://localhost:4000/api/users/booking/getTherapistDetails/${id}`).then((res) => {
+        await axios.get(`https://zummit-chandan.onrender.com/api/users/booking/getTherapistDetails/${id}`).then((res) => {
           if(res.data._id){
             dispatch(addCouncellor(res.data));
           }

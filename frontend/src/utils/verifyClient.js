@@ -6,7 +6,7 @@ async function VerifyClient(){
     let userData;
     const cookie = Cookies.get("token")
 
-    await axios.get("http://localhost:4000/api/users/verifyClient",{
+    await axios.get("https://zummit-chandan.onrender.com/api/users/verifyClient",{
         withCredentials: true,
       }).then((res) => {
         if(res.data.client._id){
