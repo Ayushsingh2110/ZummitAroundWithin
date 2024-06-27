@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useFetch from "../utils/fetchData";
 import { checkToken } from "../utils/checkToken";
 import LoginReq_pop from "./PopUps/LoginReq_pop.js";
+import { addCouncellor } from "../utils/bookingSlice";
 
 const Therapists = () => {
   const [allTherapists, setAllTherapists] = useState([]);
@@ -11,6 +12,7 @@ const Therapists = () => {
   const [ShowPopUp, setShowPopUp] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const url = searchInput
     ? `https://zummit-chandan.onrender.com/api/users/booking/getTherapistDetails?name=${searchInput}`
@@ -19,46 +21,23 @@ const Therapists = () => {
   const { data, loading, error } = useFetch(url);
 
   useEffect(() => {
+    console.log(data);
     setAllTherapists(data);
   }, [data]);
 
-  const [TherapistList, setTherapistList] = useState([]);
   const user = useSelector((store) => store.user.data);
-  // async function get_Therapist_List() {
-  //   //get data from API
-  //   await axios.get(`/api/booking/getTherapistList`, {
-  //     withCredentials: true,
-  //   }).then((data) => {
-  //       console.log(data)
-  //       //add fetched data in redux state if data is available
-  //       if (data) {
-  //         setTherapistList(data)
-  //       } else {
-  //         return (
-  //           <>
-  //             <h1>404 Not Found...</h1>
-  //           </>
-  //         )
-  //       }
-  //     }).catch((err) => console.log(err))
-  // }
 
-  // useEffect(() => {
-  //   console.log("length", user.length)
-  //   get_Therapist_List()
-  // }, []);
   const handleSearchInput = (event) => {
     if (event.key == "Enter") {
       setSearchInput(event.target.value);
-      console.log(searchInput)
     }
   };
 
-  function handleBook() {
+  function handleBook(therapistID) {
     if(!checkToken("token")){
-      console.log("book clicked")
       setShowPopUp(true)
     }else{
+      dispatch(addCouncellor(therapistID))
       navigate("/BookTherapistPage")
     }
   }
@@ -226,8 +205,8 @@ const Therapists = () => {
                       <Link
                         to={
                           user._id == undefined
-                            ? `/therapist/${therapists_info[0]._id}`
-                            : `/TherapistDetailsPage/${therapists_info[0]._id}`
+                            ? `/therapist/${therapist._id}`
+                            : `/TherapistDetailsPage/${therapist._id}`
                         }
                         target="_top"
                       >
@@ -238,7 +217,7 @@ const Therapists = () => {
                     </div>
                     <div className="xl:mt-4 sm:mt-2 sm:ms-4">
                       <button class="bg-[#0190B1] text-white font-semibold py-2 px-4 rounded"
-                        onClick={handleBook}
+                        onClick={() => handleBook(therapist._id)}
                       >
                         Book
                       </button>
