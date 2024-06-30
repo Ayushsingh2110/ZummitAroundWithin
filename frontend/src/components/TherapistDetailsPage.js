@@ -57,7 +57,7 @@ function TherapistDetailsPage() {
 
   const handleBookingClick = (e) => {
     e.preventDefault();
-    if (!checkToken()) {
+    if (!checkToken("token")) {
       setShowPopUp(true);
     } else {
       navigate("/BookTherapistPage");
