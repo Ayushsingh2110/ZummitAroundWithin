@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import Side_Navbar from "../Side_Navbar";
+import UserSidebar from "../User/UserSidebar";
 
 const IntakeResponse = () => {
     const [IntakeForm, setIntakeForm] = useState({
@@ -20,7 +20,7 @@ const IntakeResponse = () => {
     }
     return (
         <div className="flex gap-[50px] bg-[#F2FCFF]">
-            <Side_Navbar />
+            <UserSidebar />
             <div className="w-[100%] ">
                 <h1 className=" flex text-2xl mb-8font-medium leading-9 max-w-[416px] text-slate-950 mt-[2vh] mb-[2vh] ">
                     Therapists/Dr. Sundhari Prakhashan

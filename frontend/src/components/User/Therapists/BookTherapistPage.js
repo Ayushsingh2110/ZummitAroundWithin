@@ -227,7 +227,7 @@ function BookTherapistPage() {
 
   return (<>
     <div className="flex gap-[50px] bg-[#F2FCFF]">
-      <Side_Navbar />
+      <UserSidebar />
       <div className="flex-col flex-1">
         {/* Therapist name */}
         <div className=" flex text-2xl mb-8font-medium leading-9 max-w-[416px] text-slate-950 mt-[2vh] mb-[2vh] ">
