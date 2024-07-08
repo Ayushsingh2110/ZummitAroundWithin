@@ -3,8 +3,8 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Side_Navbar from "../Side_Navbar";
-import { addCouncellor } from "../../utils/bookingSlice";
-import { checkToken } from "../../utils/checkToken";
+import { addCouncellor } from "../../utils/Slices/bookingSlice";
+import { checkToken } from "../../utils/Hooks/checkToken";
 import LoginReq_pop from "../PopUps/LoginReq_pop";
 import axios from "axios";
 

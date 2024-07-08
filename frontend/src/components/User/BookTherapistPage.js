@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Side_Navbar from "./Side_Navbar";
+import Side_Navbar from "../Side_Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
-import VerifyClient from "../utils/verifyClient";
-import { addUser } from "../utils/userSlice";
+import VerifyClient from "../../utils/Hooks/verifyClient";
+import { addUser } from "../../utils/Slices/userSlice";
 import axios from "axios";
 
 function BookTherapistPage() {
