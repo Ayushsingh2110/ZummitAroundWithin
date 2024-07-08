@@ -32,11 +32,20 @@ const Therapists = () => {
     }
   };
 
-  function handleBook(therapistID) {
+  function handleView(therapist){
+    dispatch(addCouncellor(therapist))
+    if(!user._id){
+      navigate(`/therapist/${therapist._id}`)
+    }else{
+      navigate(`/TherapistDetailsPage/${therapist._id}`)
+    }
+  }
+
+  function handleBook(therapist) {
     if(!checkToken("token")){
       setShowPopUp(true)
     }else{
-      dispatch(addCouncellor(therapistID))
+      dispatch(addCouncellor(therapist))
       navigate("/BookTherapistPage")
     }
   }
@@ -201,22 +210,15 @@ const Therapists = () => {
                     <div id="dummy"></div>
                     <div id="dummy"></div>
                     <div className="xl:mt-4 sm:mt-2 sm:ms-4">
-                      <Link
-                        to={
-                          user._id == undefined
-                            ? `/therapist/${therapist._id}`
-                            : `/TherapistDetailsPage/${therapist._id}`
-                        }
-                        target="_top"
-                      >
-                        <button class="bg-transparent  text-[#0190B1] font-semibold py-2 px-4 border border-[#0190B1] rounded">
+                        <button class="bg-transparent  text-[#0190B1] font-semibold py-2 px-4 border border-[#0190B1] rounded"
+                        onClick={() => handleView(therapist)}
+                        >
                           View Profile
                         </button>
-                      </Link>
                     </div>
                     <div className="xl:mt-4 sm:mt-2 sm:ms-4">
                       <button class="bg-[#0190B1] text-white font-semibold py-2 px-4 rounded"
-                        onClick={() => handleBook(therapist._id)}
+                        onClick={() => handleBook(therapist)}
                       >
                         Book
                       </button>
