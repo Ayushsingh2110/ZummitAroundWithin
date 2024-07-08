@@ -12,7 +12,7 @@ function TherapistDetailsPage() {
 
   const [showPopUp, setShowPopUp] = useState(false);
   const [noResultError, setNoResultError] = useState({ error: false, status: null });
-  const [CouncellorData, setCouncellorData] = useState();
+  const [CouncellorData, setCouncellorData] = useState(null);
   const [loading, setLoading] = useState(true);  
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -106,7 +106,7 @@ function TherapistDetailsPage() {
         </div>
         {/* Therapist name */}
         <div className=" flex text-2xl mb-8font-medium leading-9 max-w-[416px] text-slate-950 mt-[2vh] mb-[2vh] ">
-          Therapists/{CouncellorData.name}
+          Therapists/{CouncellorData && CouncellorData.name}
         </div>
         {/* Therapist details card */}
         <div className="flex flex-col justify-center max-w-[983px]">
@@ -128,7 +128,7 @@ function TherapistDetailsPage() {
                     <div className="flex flex-col ml-5 w-[64%] max-md:ml-0 max-md:w-full">
                       <div className="flex flex-col mt-7 text-xl font-medium max-md:mt-10">
                         <div className="text-3xl font-semibold text-black">
-                        {CouncellorData.name}
+                        {CouncellorData && CouncellorData.name}
                         </div>
                         <div className="flex gap-5 justify-between mt-8">
                           <div className="text-black">Experience</div>
