@@ -42,6 +42,7 @@ import Therapist_Responses from "./components/Therapist/Responses/Therapist_Resp
 import Therapist_Transactions from "./components/Therapist/Transactions/Therapist_Transactions";
 import Therapist_Profile from "./components/Therapist/Profile/Therapist_Profile";
 import Therapist_Groups from "./components/Therapist/Groups/Therapist_Groups";
+import IntakeResponse from "./components/Booking/IntakeResponse";
 
 const WithHeaderAndFooter = ({ children }) => (
   <>
@@ -195,7 +196,18 @@ const routes = [
   { path: "/userdashboard", element: <UserDashboard /> },
   { path: "/bookingPage", element: <BookingPage /> },
   { path: "/TherapistDetailsPage/:id", element: <TherapistDetailsPage /> },
-  { path: "/BookTherapistPage", element: <BookTherapistPage /> },
+  { path: "/BookTherapistPage", 
+    children: [
+      {
+        path: "",
+        element: <BookTherapistPage />
+      },
+      {
+        path: "IntakeForm",
+        element: <IntakeResponse />
+      }
+    ]
+  },
   { path: "/ShowBookingDetailsPage", element: <ShowBookingDetailsPage /> },
   { path: "/admin-dashboard", element: <AdminDashboard /> },
   { path: "/admin-appointments", element: <Admin_Appointments /> },
