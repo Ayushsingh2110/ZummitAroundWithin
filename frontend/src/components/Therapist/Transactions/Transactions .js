@@ -4,15 +4,10 @@ import axios from "axios";
 const Transactions = () => {
   const [transactions, setTransactions] = useState([])
   useEffect(() => {
-    axios
-      .post("https://zummit-chandan.onrender.com/api/admin/transactions", {
-        input: "Dom@gmail.com",
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NWFiOGNjNDQ1MmIxM2Q1MGJmYTYzNCIsImlhdCI6MTcxNzIyMTU4MCwiZXhwIjoxNzE5ODEzNTgwfQ.ZKxsQmALrx7CpkOpNzA1i1Ub1exmI9ghmsdY9bQVzuI",
-      })
+    axios.get('https://zummit-chandan.onrender.com/api/therapist/gettherapistTransactionLists')
       .then((response) => {
         if (response.data.success) {
-          setTransactions(response.data.transaction);
+          setTransactions(response.data.therapistTransaction);
         } else {
           console.error("Failed to fetch appointments");
         }
@@ -23,6 +18,7 @@ const Transactions = () => {
   }, []);
   const cancelledStyle = { color: "#B00202" };
   const completedStyle = { color: "#02B04A" };
+  console.log(transactions);
 
   const getStyle = (report) => {
     switch (report) {
@@ -105,23 +101,24 @@ const Transactions = () => {
       </div>
       <div className="p-4 w-[90%] rounded-lg bg-white ">
         <tr className="bg-[#DCDCDD] text-lg mb-4  rounded-lg w-full p-2 text-black flex gap-2 items-center">
-          <td className="w-[10rem]  ">Invoice Number</td>
-          <td className="w-[7rem]  ">Client ID</td>
-          <td className="w-[10rem]  ">Client Name</td>
-          <td className="w-[10rem]  ">Doctor Name</td>
-          <td className="w-[5rem]  ">Amount</td>
-          <td className="w-[6rem]  text-center">Status</td>
+          <td className="w-[10rem] ">Invoice Number</td>
+          <td className="w-[10rem] ">Session Date</td>
+          <td className="w-[10rem] ">Doctor Name</td>
+          <td className="w-[5rem] ">Amount</td>
+          <td className="w-[6rem] text-center">Status</td>
         </tr>
 
         {transactions.map((item) => (
           <tr className="flex gap-2 w-full p-2 text-lg rounded-lg items-center">
             <td className="w-[10rem] ">{item.invoiceNumber}</td>
-            <td className="w-[7rem] ">{item.clientId}</td>
+            <td className="w-[7rem] ">{item.sessionDate}</td>
             <td className="w-[10rem] ">{item.clientName}</td>
             <td className="w-[10rem] ">{item.doctorName}</td>
+            <td className="w-[10rem] ">{item.Amount}</td>
+            <td className="w-[10rem] ">{item.Status}</td>
             <td
               style={getStyle(item.report)}
-              className="w-[4rem]  text-end "
+              className="w-[4rem]  text-end"
             >
               {item.amount}
             </td>

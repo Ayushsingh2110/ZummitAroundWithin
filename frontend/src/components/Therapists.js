@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import useFetch from "../utils/fetchData";
-import { checkToken } from "../utils/checkToken";
+
+import { checkToken } from "../utils/Hooks/checkToken.js";
 import LoginReq_pop from "./PopUps/LoginReq_pop.js";
-import { addCouncellor } from "../utils/bookingSlice";
+import { addCouncellor } from "../utils/Slices/bookingSlice.js";
+import useFetch from "../utils/Hooks/fetchData.js";
 
 const Therapists = () => {
   const [allTherapists, setAllTherapists] = useState([]);
@@ -220,7 +221,7 @@ const Therapists = () => {
                       <button class="bg-[#0190B1] text-white font-semibold py-2 px-4 rounded"
                         onClick={() => handleBook(therapist)}
                       >
-                        Book
+                        Book Appointment
                       </button>
                     </div>
                   </div>

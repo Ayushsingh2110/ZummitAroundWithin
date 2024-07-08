@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
-import About from "./components/About";
+
 import Services from "./components/Services";
 import Therapists from "./components/Therapists";
 import Resources from "./components/Resources";
@@ -14,13 +14,12 @@ import GroupTherapy from "./components/GroupTherapy";
 import SupportTherapy from "./components/SupportTherapy";
 import ContactSection from "./components/ContactSection";
 import GroupTherapyDetail from "./components/GroupTherapyDetail";
-import RegisterLogin from "./components/RegisterLogin";
-import BookingPage from "./components/BookingPage";
+import RegisterLogin from "./components/User/RegisterLogin";
+import BookingPage from "./components/User/BookingPage";
 import ForgotPassword from "./components/ForgotPassword";
-import UserDashboard from "./components/UserDashboard";
-import TherapistDetailsPage from "./components/TherapistDetailsPage";
-import BookTherapistPage from "./components/BookTherapistPage";
-import ShowBookingDetailsPage from "./components/ShowBookingDetailsPage";
+import TherapistDetailsPage from "./components/User/TherapistDetailsPage";
+import BookTherapistPage from "./components/User/BookTherapistPage";
+import ShowBookingDetailsPage from "./components/User/ShowBookingDetailsPage";
 import AdminDashboard from "./components/Admin/Dashboard/AdminDashboard";
 import Admin_Appointments from "./components/Admin/Appointment/Admin_Appointments";
 import Admin_Groups from "./components/Admin/Groups/Admin_Groups";
@@ -30,7 +29,6 @@ import Admin_Resources from "./components/Admin/Resources/Admin_Resources";
 import Admin_Clients from "./components/Admin/Client/Admin_Clients";
 import Admin_Reviews from "./components/Admin/Reviews/Admin_Reviews";
 import Admin_Transactions from "./components/Admin/Transactions/Admin_Transactions";
-import TherapistHome from "./components/TherapistHome";
 import Login from "./components/Admin/Register_Loigin/Login";
 import SignUp from "./components/Admin/Register_Loigin/SignUp";
 import Therapist_Dashboard from "./components/Therapist/Dashboard/Therapist_Dashboard";
@@ -42,6 +40,11 @@ import Therapist_Responses from "./components/Therapist/Responses/Therapist_Resp
 import Therapist_Transactions from "./components/Therapist/Transactions/Therapist_Transactions";
 import Therapist_Profile from "./components/Therapist/Profile/Therapist_Profile";
 import Therapist_Groups from "./components/Therapist/Groups/Therapist_Groups";
+import Therapist_Login from "./components/Therapist/Register_Loigin/Therapist_Login";
+import Therapist_SignUp from "./components/Therapist/Register_Loigin/Therapist_Signup";
+import UserDashboard from "./components/UserDashboard";
+import UserResources from "./components/User/UserResources";
+import About from "./components/About";
 import IntakeResponse from "./components/Booking/IntakeResponse";
 
 const WithHeaderAndFooter = ({ children }) => (
@@ -175,6 +178,23 @@ const routes = [
   },
 
   {
+    path: "/therapist-login",
+    element: (
+      <WithHeaderAndFooter>
+        <Therapist_Login />
+      </WithHeaderAndFooter>
+    ),
+  },
+  {
+    path: "/therapist-register",
+    element: (
+      <WithHeaderAndFooter>
+        <Therapist_SignUp />
+      </WithHeaderAndFooter>
+    ),
+  },
+
+  {
     path: "/admin-login",
     element: (
       <WithHeaderAndFooter>
@@ -194,6 +214,7 @@ const routes = [
     path: "/",
   },
   { path: "/userdashboard", element: <UserDashboard /> },
+  { path: "/userdashboard-resources", element: <UserResources /> },
   { path: "/bookingPage", element: <BookingPage /> },
   { path: "/TherapistDetailsPage/:id", element: <TherapistDetailsPage /> },
   { path: "/BookTherapistPage", 
@@ -218,7 +239,6 @@ const routes = [
   { path: "/admin-therapists", element: <Admin_Therapists /> },
   { path: "/admin-transactions", element: <Admin_Transactions /> },
   { path: "/admin-resources", element: <Admin_Resources /> },
-  { path: "/Therapist-home", element: <TherapistHome /> },
   { path: "/therapist-dashboard", element: <Therapist_Dashboard /> },
   { path: "/therapist-appointments", element: <Therapist_Appointment /> },
   { path: "/therapist-schedules", element: <Therapist_Schedules /> },
@@ -228,6 +248,8 @@ const routes = [
   { path: "/therapist-responses", element: <Therapist_Responses /> },
   { path: "/therapist-transactions", element: <Therapist_Transactions /> },
   { path: "/therapist-profile", element: <Therapist_Profile /> },
+  { path: "/therapist-login", element: <Therapist_Login /> },
+  { path: "/therapist-register", element: <Therapist_SignUp /> },
   { path: "/admin-login", element: <Login /> },
   { path: "/admin-register", element: <SignUp /> },
 ];

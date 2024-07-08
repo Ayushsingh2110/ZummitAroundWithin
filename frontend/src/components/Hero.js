@@ -34,13 +34,7 @@ const Hero = () => {
     </div>
   );
 
-  const therapyOptions = [
-    {
-      title: "Individual Therapy",
-      imageUrl: "./images/Individual Therapy.png",
-      altText: "An icon representing individual therapy",
-      linkTo: "/services/individual-therapy",
-    },
+  const therapyOptions = [   
     {
       title: "Group Therapy",
       imageUrl: "./images/Group-Therapy-img.png",
@@ -53,6 +47,12 @@ const Hero = () => {
       altText: "An icon representing support group",
       linkTo: "/services/support-group",
     },
+    {
+      title: "Individual Therapy",
+      imageUrl: "./images/Individual Therapy.png",
+      altText: "An icon representing individual therapy",
+      linkTo: "/services/individual-therapy",
+    },
   ];
 
   return (
@@ -61,7 +61,7 @@ const Hero = () => {
         <div className="flex flex-col  gap-5">
           <div className="flex flex-col justify-center items-center">
             <div className="w-fit">
-              <h1 className="text-[45px] font-medium text-neutral-900 max-md:max-w-full max-md:text-4xl w-fit text-center">
+              <h1 className="text-[45px] font-medium text-neutral-900 max-md:max-w-full truncate  max-md:text-4xl w-fit text-center">
                 "Who looks outside, dreams; who looks inside, awakes."
               </h1>
               <p className="font-medium text-[28px] text-right w-full px-1 mb-[24px] mt-[18px]">

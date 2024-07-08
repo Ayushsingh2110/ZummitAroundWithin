@@ -6,8 +6,8 @@ const therapistTransactionLists = asyncHandler(async (req, res) => {
         const therapistTransaction = await therapistTransactions.find({});
         res.status(200).json({
             success: true,
-            therapistGroupData: therapistTransaction,
-            message: " Transactions list "
+            therapistTransaction: therapistTransaction,
+            message: "Transactions list"
         });
     } catch (error) {
         console.error(error);
