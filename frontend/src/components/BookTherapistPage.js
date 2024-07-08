@@ -10,7 +10,7 @@ function BookTherapistPage() {
   const Client = {}
   const [Councellor, setCouncellor] = useState(null);
   const [IsAuthorized, setIsAuthorized] = useState(true);
-  const [Loading, setLoading] = useState(false);
+  const [Loading, setLoading] = useState(true);
   const [Error, setError] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,10 +34,12 @@ function BookTherapistPage() {
   //verify user
 
   const authorizeClient = async (callback) => {
-    setLoading(true);
+    try {
+      setLoading(true);
     const { error, data } = await VerifyClient();
     if (error) {
       setIsAuthorized(false);
+      setLoading(false);
     } else {
       if (data.client.id) {
         Client.id = data.client.id;
@@ -45,9 +47,13 @@ function BookTherapistPage() {
         if (callback) callback();
       } else {
         setIsAuthorized(false);
+        setLoading(false)
       }
     }
-    setLoading(false);
+    } catch (error) {
+      setIsAuthorized(false);
+      setLoading(false)
+    }
   };
 
   const GetTherapistData = async (therapist) => {
