@@ -30,20 +30,21 @@ function BookTherapistPage() {
   const [ActiveDayPeriod, setActiveDayPeriod] = useState("Morning");
   const [SlotsToDisplay, setSlotsToDisplay] = useState([]);
 
-  const therapist = useSelector((state) => state.booking.selectedCouncellor)
-  //verify user
+  const therapistID = sessionStorage.getItem('selectedCouncellor')
 
+  //verify user
   const authorizeClient = async (callback) => {
     try {
       setLoading(true);
-    const { error, data } = await VerifyClient();
+    const { error, userData } = await VerifyClient();
+    console.log(userData)
     if (error) {
       setIsAuthorized(false);
       setLoading(false);
     } else {
-      if (data.client.id) {
-        Client.id = data.client.id;
-        Client.name = data.client.name;
+      if (userData && userData._id) {
+        Client._id = userData._id;
+        Client.name = userData.name;
         if (callback) callback();
       } else {
         setIsAuthorized(false);
@@ -56,17 +57,18 @@ function BookTherapistPage() {
     }
   };
 
-  const GetTherapistData = async (therapist) => {
-    if (!therapist._id) {
+  const GetTherapistData = async (therapistID) => {
+    if (!therapistID) {
       navigate("/bookingPage");
       return;
     }
 
     try {
       //Here slots data will be fetched instead of therapist data
-      const res = await axios.get(`https://zummit-chandan.onrender.com/api/users/booking/getTherapistDetails/find/${therapist._id}`);
+      const res = await axios.get(`https://zummit-chandan.onrender.com/api/users/booking/getTherapistDetails/find/${therapistID}`);
       if (res.data.name) {
         setCouncellor(res.data);
+        setLoading(false);
       } else {
         navigate("/bookingPage");
       }
@@ -80,10 +82,10 @@ function BookTherapistPage() {
   useEffect(() => {
     authorizeClient(() => {
       if (IsAuthorized) {
-        GetTherapistData(therapist);
+        GetTherapistData(therapistID);
       }
     });
-  }, [therapist]);
+  }, [therapistID]);
 
   useEffect(() => {
     if (SelectedSlot && SlotsPerDate.size) {

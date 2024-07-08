@@ -32,10 +32,21 @@ const Our_Therapist = () => {
     }
   };
 
+  function handleView(therapistID) {
+    sessionStorage.setItem("selectedCouncellor", therapistID)
+    if (!checkToken("token")) {
+      navigate(`/therapist/${therapistID}`)
+    } else {
+      navigate(`/TherapistDetailsPage/${therapistID}`)
+    }
+  }
+
   function handleBook(therapistID) {
     if (!checkToken("token")) {
       setShowPopUp(true);
     } else {
+      console.log(therapistID)
+      sessionStorage.setItem("selectedCouncellor", therapistID)
       dispatch(addCouncellor(therapistID));
       navigate("/BookTherapistPage");
     }
@@ -199,18 +210,10 @@ const Our_Therapist = () => {
                     <div id="dummy"></div>
                     <div id="dummy"></div>
                     <div className="xl:mt-4 sm:mt-2 sm:ms-4">
-                      <Link
-                        to={
-                          user._id == undefined
-                            ? `/therapist/${therapist._id}`
-                            : `/TherapistDetailsPage/${therapist._id}`
-                        }
-                        target="_top"
-                      >
-                        <button class="bg-transparent  text-[#0190B1] font-semibold py-2 px-4 border border-[#0190B1] rounded">
-                          View Profile
-                        </button>
-                      </Link>
+                      <button class="bg-transparent  text-[#0190B1] font-semibold py-2 px-4 border border-[#0190B1] rounded"
+                        onClick={() => handleView(therapist._id)}>
+                        View Profile
+                      </button>
                     </div>
                     <div className="xl:mt-4 sm:mt-2 sm:ms-4">
                       <button

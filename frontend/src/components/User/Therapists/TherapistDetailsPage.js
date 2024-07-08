@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addCouncellor } from "../../../utils/Slices/bookingSlice";
 import { checkToken } from "../../../utils/Hooks/checkToken";
@@ -18,7 +18,7 @@ function TherapistDetailsPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const user = useSelector((state) => state.user.data)
+  const user = localStorage.getItem("userID")
 
   useEffect(() => {
     const fetchData = async () => {
@@ -70,9 +70,9 @@ function TherapistDetailsPage() {
     {
       showPopUp && <LoginReq_pop setShowPopUp={setShowPopUp} />
     }
-    <div className={user._id ? "flex" : "flex justify-center"}>
+    <div className={user ? "flex" : "flex justify-center"}>
       {
-        (user._id && user.role === "client") && <UserSidebar />
+        user && <UserSidebar />
       }
       <div className="flex-col ml-[2vw] ">
         {/* search bar element */}

@@ -9,7 +9,7 @@ const therapistScheduleModel = mongoose.Schema(
         TherapistName: {
             type: String,
             required: true
-        }
+        },
         ScheduleDates: {
             type: [ String ],
             required: [true, "please add session date"]
