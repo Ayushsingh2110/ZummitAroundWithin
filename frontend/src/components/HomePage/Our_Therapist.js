@@ -46,7 +46,6 @@ const Our_Therapist = () => {
     if (!checkToken("token")) {
       setShowPopUp(true);
     } else {
-      console.log(therapistID)
       sessionStorage.setItem("selectedCouncellor", therapistID)
       dispatch(addCouncellor(therapistID));
       navigate("/BookTherapistPage");

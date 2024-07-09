@@ -37,7 +37,6 @@ function BookTherapistPage() {
     try {
       setLoading(true);
     const { error, userData } = await VerifyClient();
-    console.log(userData)
     if (error) {
       setIsAuthorized(false);
       setLoading(false);
