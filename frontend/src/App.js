@@ -52,6 +52,11 @@ import { addTherapist } from "./utils/Slices/therapistSlice";
 import { addAdmin } from "./utils/Slices/adminSlice";
 import About from "./components/HomePage/About";
 import UserAppointments from "./components/User/Appointments/UserAppointments";
+
+
+
+
+
 import IntakeResponse from "./components/Booking/IntakeResponse";
 
 const WithHeaderAndFooter = ({ children }) => (
