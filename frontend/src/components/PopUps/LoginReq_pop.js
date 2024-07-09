@@ -13,16 +13,16 @@ const LoginReqPop = ({ setShowPopUp }) => {
   return (
     <div
       className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 z-50 w-[100vw] h-[100vh] flex justify-center items-center bg-[rgba(148,157,156,0.53)]"
-      onClick={handleClose}
     >
       <div
         className="relative w-[70%] bg-white rounded-lg shadow"
         onClick={handlePopupClick}
       >
-        <div className="text-center border-b-2 border-[#0190B1]">
+        <div className="text-center relative border-b-2 border-[#0190B1]">
           <h3 className="w-[100%] my-5 text-[28px] md:text-[24px] sm:text-[20px] text-[#0190B1]">
             Login Required
           </h3>
+          <i class="fa-solid fa-xmark absolute top-0 right-5 text-lg cursor-pointer" onClick={handleClose}></i>
         </div>
         <div className="my-[24px] mx-[15vw]">
           <p className="text-[20px] md:text-[16px] sm:text-[14px]">
